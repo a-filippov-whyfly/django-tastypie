@@ -37,14 +37,16 @@ matrix:
     - python: "2.7"
       env: DJANGO_VERSION=dj21
 
+before_install:
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 762E3157
+
 addons:
   apt:
     packages:
     - binutils
     - libproj-dev
     - gdal-bin
-    - spatialite-bin
-    - libspatialite-dev
+    - libsqlite3-mod-spatialite
 
 cache:
   directories:
@@ -64,5 +66,6 @@ after_success:
 
 # command to run tests
 script:
+    - apt list --installed
     - coverage erase
     - tox -e py${TRAVIS_PYTHON_VERSION/./}-${DJANGO_VERSION}${MODE}
